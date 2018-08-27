@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "test": "export NODE_ENV=test && jasmine",
-    "start": "nodemon src/server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "author": "Damian Rivas",
   "license": "ISC",
