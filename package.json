@@ -8,7 +8,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },
-  "author": "Damian Rivas",
+  "author": "Paul Brower",
   "license": "ISC",
   "devDependencies": {
     "faker": "^4.1.0",
