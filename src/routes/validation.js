@@ -7,7 +7,7 @@ module.exports = {
   //#2
         req.checkParams("topicId", "must be valid").notEmpty().isInt();
         req.checkBody("title", "must be at least 2 characters in length").isLength({min: 2});
-        req.checkBody("body", "must be at least 10 characters in length").isLength({min: 10});
+        req.checkBody("description", "must be at least 10 characters in length").isLength({min: 10});
       }
   
   //#3

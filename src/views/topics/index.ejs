@@ -4,9 +4,9 @@
   <% include ../static/partials/head.ejs %>
 </head>
 <body>
-  <% include ../static/partials/navbar.ejs %>
-
   <main class="container">
+    <% include ../static/partials/navbar.ejs %>
+    <% include ../static/partials/messages.ejs %>
 
     <h1 class="my-4">Topics</h1>
 
@@ -17,7 +17,6 @@
         </li>
       <% }) %>
     </ul>
-
   </main>
 </body>
 </html>
