@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = (sequelize, DataTypes) => {
   var Topic = sequelize.define("Topic", {
     title: {
@@ -11,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Topic.associate = function(models) {
-    // associations can be defined here
     Topic.hasMany(models.Post, {
       foreignKey: "topicId",
       as: "posts"
