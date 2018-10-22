@@ -1,4 +1,4 @@
-Instalation: pretty straightforward, npm install passport-github
+/*Instalation: pretty straightforward, npm install passport-github
 
 Usage
 creating application: 
