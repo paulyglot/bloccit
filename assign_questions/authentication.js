@@ -13,4 +13,4 @@ configuring strategy: requires a verify callback and profile. Verify callback mu
 authenticate requests: passport.authenticate(), specifying GitHub strategy to authenticate
     requests.
 
-completed...
+completed...*/
