@@ -27,8 +27,10 @@
     Post.belongsTo(models.User, {
     foreignKey: "userId",
     onDelete: "CASCADE"
-    });
- 
+    }); 
    };
+   Post.prototype.isOwner = function() {
+    return this.userId === this.foreignKey;
+  }
    return Post;
  };
