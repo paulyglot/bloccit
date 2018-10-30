@@ -56,7 +56,7 @@ describe("GET /topics/:topicId/posts/new", () => {
     });
   });
 
-describe("POST /topics/:topicId/posts/create", () => {
+fdescribe("POST /topics/:topicId/posts/create", () => {
 
    it("should create a new post and redirect", (done) => {
       const options = {
