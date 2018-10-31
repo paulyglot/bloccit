@@ -1,18 +1,14 @@
-// #1
+
 const User = require("./models").User;
 const bcrypt = require("bcryptjs");
 const Post = require("./models").Post;
 const Comment = require("./models").Comment;
 
 module.exports = {
-// #2
-  createUser(newUser, callback){
 
-// #3
+  createUser(newUser, callback){
     const salt = bcrypt.genSaltSync();
     const hashedPassword = bcrypt.hashSync(newUser.password, salt);
-
-// #4
     return User.create({
       email: newUser.email,
       password: hashedPassword
@@ -25,29 +21,26 @@ module.exports = {
     })
   },
 
-  getUser(id, callback){
-    // #1
+  getUser(id, callback){    
        let result = {};
        User.findById(id)
-       .then((user) => {
-    // #2
+       .then((user) => {   
          if(!user) {
            callback(404);
-         } else {
-    // #3
-           result["user"] = user;
-    // #4
+         } else {   
+           result["user"] = user;   
            Post.scope({method: ["lastFiveFor", id]}).all()
-           .then((posts) => {
-    // #5
-             result["posts"] = posts;
-    // #6
+           .then((posts) => {   
+             result["posts"] = posts;   
              Comment.scope({method: ["lastFiveFor", id]}).all()
-             .then((comments) => {
-    // #7
+             .then((comments) => {   
                result["comments"] = comments;
-               callback(null, result);
-             })
+               Favorite.scope({method: ["showFavorites", id]}).all()
+               .then((favorites) => {
+                   result["favorites"] = favorites;
+                   callback(null, result);
+                  })
+                }) 
              .catch((err) => {
                callback(err);
              })
@@ -55,5 +48,4 @@ module.exports = {
          }
        })
      }
-
 }
