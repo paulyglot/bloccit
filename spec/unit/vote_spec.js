@@ -65,21 +65,14 @@ describe("Vote", () => {
     });
   });
 
-     // #1
      describe("#create()", () => {
-
-        // #2
             it("should create an upvote on a post for a user", (done) => {
-     
-        // #3
               Vote.create({
                 value: 1,
                 postId: this.post.id,
                 userId: this.user.id
               })
               .then((vote) => {
-     
-        // #4
                 expect(vote.value).toBe(1);
                 expect(vote.postId).toBe(this.post.id);
                 expect(vote.userId).toBe(this.user.id);
@@ -91,8 +84,21 @@ describe("Vote", () => {
                 done();
               });
             });
-     
-        // #5
+
+            it("should not create a vote with a value other than 1 or -1", (done) => {
+              Vote.create({
+                     value: 2,
+                     postId: this.post.id,
+                     userId: this.user.id
+                 })
+                 .then((vote) => {
+                 })
+                 .catch((err) => {
+                     expect(err.message).toContain("Validation on value failed");
+                     done();
+                 });
+         });
+
             it("should create a downvote on a post for a user", (done) => {
               Vote.create({
                 value: -1,
@@ -111,8 +117,7 @@ describe("Vote", () => {
                 done();
               });
             });
-     
-        // #6
+
             it("should not create a vote without assigned post or user", (done) => {
               Vote.create({
                 value: 1
@@ -256,5 +261,61 @@ describe("Vote", () => {
               });
             });
        
-          });       
+          });  
+          
+          describe("#hasUpvoteFor()", () => { //start of hasUpvoteFor suite
+            it("should return true if user matching userId has upvote for post", done => {
+                Vote.create({
+                    value: 1,
+                    postId: this.post.id,
+                    userId: this.user.id,
+                }).then(vote => {
+                    this.vote = vote;
+                     Post.create({
+                        title: "Does my hasUpvoteFor work?",
+                        body: "I think I'm getting the hang of this!",
+                        topicId: this.topic.id,
+                        userId: this.user.id,
+                    }).then(newPost => {
+                        expect(this.vote.postId).not.toBe(newPost.id);
+                         this.vote.setPost(newPost).then(vote => {
+                            expect(vote.postId).toBe(newPost.id);
+                            expect(this.vote.userId).toBe(newPost.userId);
+                            newPost.hasUpvoteFor(newPost.userId).then(votes => {
+                                expect(votes.length > 0).toBe(true);
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+        }); 
+
+         describe("#hasDownvoteFor()", () => { //start of hasDownvoteFor
+            it("should return true if user matching userId has downvote for post", done => {
+                Vote.create({
+                    value: -1,
+                    postId: this.post.id,
+                    userId: this.user.id,
+                }).then(vote => {
+                    this.vote = vote;
+                     Post.create({
+                        title: "Does my hasDownvoteFor work?",
+                        body: 'The more tests I write the more confident I feel!',
+                        topicId: this.topic.id,
+                        userId: this.user.id,
+                    }).then(newPost => {
+                        expect(this.vote.postId).not.toBe(newPost.id);
+                         this.vote.setPost(newPost).then(vote => {
+                            expect(vote.postId).toBe(newPost.id);
+                            expect(this.vote.userId).toBe(newPost.userId);
+                            newPost.hasDownvoteFor(newPost.userId).then(votes => {
+                                expect(votes.length > 0).toBe(true);
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+        }); 
 });
