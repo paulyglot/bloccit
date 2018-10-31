@@ -22,10 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
-  Post.associate = function(models) {
-    // associations can be defined here
 
-    Post.belongsTo(models.Topics, {
+  Post.associate = function(models) {
+
+    Post.belongsTo(models.Topic, {
       foreignKey: "topicId",
       onDelete: "CASCADE"
     });
@@ -57,15 +57,15 @@ module.exports = (sequelize, DataTypes) => {
      });
    });
   };
- Post.prototype.isOwner = function() {
-   return this.userId === this.foreignKey;
-  };
+
+  Post.prototype.isOwner = function() {
+    return this.userId == this.foreignKey;
+    };
+
   Post.prototype.getPoints = function() {
 
-    // #1
-    if (this.votes.length === 0) return 0
+    if (this.votes.length == 0) return 0
 
-    // #2
     return this.votes
       .map((v) => {
         return v.value
@@ -74,10 +74,22 @@ module.exports = (sequelize, DataTypes) => {
         return prev + next
       });
   };
+
   Post.prototype.getFavoriteFor = function(userId) {
     return this.favorites.find((favorite) => {
       return favorite.userId == userId
     });
   };
+  
+  Post.addScope("lastFiveFor", (userId) => {
+    
+        return {
+          where: { userId: userId},
+    
+          limit: 5,
+          order: [["createdAt", "DESC"]]
+        }
+      });          
   return Post;
 };
+
